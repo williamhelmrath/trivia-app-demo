@@ -1,24 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ChangeEvent, useState } from "react";
+import BasicTrivia from "./components/basic/BasicTrivia";
+import AdvancedTrivia from "./components/advanced/AdvancedTrivia";
+import Header from "./components/Header";
 
 function App() {
+  const [tab, setTab] = useState(0);
+
+  const handleTabChange = (event: ChangeEvent<{}>, newValue: number) =>
+    setTab(newValue);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header tab={tab} handleTabChange={handleTabChange} />
+      {tab === 0 ? <BasicTrivia /> : <AdvancedTrivia />}
     </div>
   );
 }
