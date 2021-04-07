@@ -1,13 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, ChangeEvent } from "react";
 import he from "he";
+import { Input, Button, Select, MenuItem } from "@material-ui/core";
 import { ResultsType, QuestionType } from "../../types";
 import Question from "./Question";
+import categories from "./categories";
 
 export default function AdvancedTrivia() {
   const [questions, setQuestions] = useState([]);
+  const [numQuestions, setNumQuestions] = useState(10);
+  const [category, setCategory] = useState(0);
+  const [numAnswered, setNumAnswered] = useState(0);
 
-  useEffect(() => {
-    fetch("https://opentdb.com/api.php?amount=10")
+  const fetchQuestions = () => {
+    if (numQuestions > 50 || numQuestions < 1) return;
+
+    setNumAnswered(0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    fetch(
+      `https://opentdb.com/api.php?amount=${numQuestions}&category=${category}`
+    )
       .then((res) => res.json())
       .then((res) => {
         const questions = res.results.map((question: ResultsType) => {
@@ -28,12 +40,60 @@ export default function AdvancedTrivia() {
         });
         setQuestions(questions);
       });
-  }, []);
+  };
+
+  const handleNumChange = (event: ChangeEvent<HTMLInputElement>) =>
+    setNumQuestions(parseInt(event.currentTarget.value));
+
+  const handleCategoryChange = (event: ChangeEvent<{ value: unknown }>) =>
+    setCategory(parseInt(event.target.value as string));
+
+  if (questions.length === 0)
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          maxWidth: 1100,
+          margin: "auto",
+        }}
+      >
+        <Input
+          type="number"
+          value={numQuestions}
+          onChange={handleNumChange}
+          error={numQuestions > 50 || numQuestions < 1}
+        />
+        <Select value={category} onChange={handleCategoryChange}>
+          {categories.map((category) => (
+            <MenuItem value={category.num}>{category.category}</MenuItem>
+          ))}
+        </Select>
+        <Button onClick={fetchQuestions}>Go!</Button>
+      </div>
+    );
+
   return (
     <div style={{ textAlign: "center", maxWidth: 1100, margin: "auto" }}>
       {questions.map((question: QuestionType) => (
-        <Question question={question} key={question.question} />
+        <Question
+          question={question}
+          incrementNumAnswered={() =>
+            setNumAnswered((numAnswered) => numAnswered + 1)
+          }
+          key={question.question}
+        />
       ))}
+      {numAnswered === numQuestions && (
+        <Button
+          onClick={fetchQuestions}
+          variant="outlined"
+          style={{ marginBottom: 40 }}
+        >
+          Fetch more questions!
+        </Button>
+      )}
     </div>
   );
 }

@@ -9,7 +9,12 @@ interface HeaderProps {
 
 export default function Header({ tab, handleTabChange }: HeaderProps) {
   return (
-    <Tabs value={tab} onChange={handleTabChange} centered>
+    <Tabs
+      value={tab}
+      onChange={handleTabChange}
+      centered
+      style={{ marginBottom: 30 }}
+    >
       <Tab label="Basic" />
       <Tab label="Advanced" />
     </Tabs>

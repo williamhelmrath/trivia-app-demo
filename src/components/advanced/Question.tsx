@@ -1,26 +1,33 @@
 import { useState } from "react";
+import Typography from "@material-ui/core/Typography";
 import Answer from "./Answer";
 import { QuestionType } from "../../types";
 
 interface QuestionProps {
   question: QuestionType;
+  incrementNumAnswered: () => void;
 }
 
-export default function Question({ question }: QuestionProps) {
+export default function Question({
+  question,
+  incrementNumAnswered,
+}: QuestionProps) {
   const [answered, setAnswered] = useState(false);
-  const [color, setColor] = useState<"black" | "green" | "red">("black");
+
   const answerQuestion = (answer: string) => {
     setAnswered(true);
-    setColor(answer === question.correct_answer ? "green" : "red");
+    incrementNumAnswered();
   };
+
   return (
     <div style={{ margin: 30 }}>
-      <h1 style={{ color }}>{question.question}</h1>
+      <Typography variant="h4">{question.question}</Typography>
       {question.answers.map((answer) => (
         <Answer
           answer={answer}
           answered={answered}
           answerQuestion={answerQuestion}
+          isCorrect={answer === question.correct_answer}
           key={answer}
         />
       ))}
