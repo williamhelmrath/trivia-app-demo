@@ -1,4 +1,5 @@
 import Button from "@material-ui/core/Button";
+import he from "he";
 interface AnswerProps {
   answer: string;
   answered: boolean;
@@ -26,7 +27,7 @@ export default function Answer({
         background: answered ? (isCorrect ? GREEN : RED) : "",
       }}
     >
-      {answer}
+      {he.decode(answer)}
     </Button>
   );
 }

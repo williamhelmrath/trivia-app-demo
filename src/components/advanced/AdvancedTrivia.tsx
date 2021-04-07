@@ -30,7 +30,6 @@ export default function AdvancedTrivia() {
             answers = question.incorrect_answers;
             const rand = Math.floor(Math.random() * 4);
             answers.splice(rand, 0, question.correct_answer);
-            answers = answers.map((answer) => he.decode(answer));
           }
           return {
             ...question,
