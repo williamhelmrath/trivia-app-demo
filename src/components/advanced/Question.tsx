@@ -21,7 +21,8 @@ export default function Question({
 
   return (
     <div style={{ margin: 30 }}>
-      <Typography variant="h4">{question.question}</Typography>
+      <Typography variant="h5">{question.question}</Typography>
+
       {question.answers.map((answer) => (
         <Answer
           answer={answer}

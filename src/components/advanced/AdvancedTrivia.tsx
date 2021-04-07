@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from "react";
 import he from "he";
-import { Input, Button, Select, MenuItem } from "@material-ui/core";
+import { Input, Button, Select, MenuItem, Typography } from "@material-ui/core";
 import { ResultsType, QuestionType } from "../../types";
 import Question from "./Question";
 import categories from "./categories";
@@ -59,18 +59,32 @@ export default function AdvancedTrivia() {
           margin: "auto",
         }}
       >
+        <Typography variant="h6"># of Questions:</Typography>
         <Input
           type="number"
           value={numQuestions}
           onChange={handleNumChange}
           error={numQuestions > 50 || numQuestions < 1}
+          style={{ marginBottom: 40 }}
         />
-        <Select value={category} onChange={handleCategoryChange}>
+
+        <Typography variant="h6">Category:</Typography>
+        <Select
+          value={category}
+          onChange={handleCategoryChange}
+          style={{ marginBottom: 40 }}
+        >
           {categories.map((category) => (
             <MenuItem value={category.num}>{category.category}</MenuItem>
           ))}
         </Select>
-        <Button onClick={fetchQuestions}>Go!</Button>
+        <Button
+          onClick={fetchQuestions}
+          size="large"
+          disabled={numQuestions > 50 || numQuestions < 1}
+        >
+          Go!
+        </Button>
       </div>
     );
 
