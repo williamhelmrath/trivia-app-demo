@@ -4,7 +4,7 @@ interface AnswerProps {
   answer: string;
   answered: boolean;
   isCorrect: boolean;
-  answerQuestion: (answer: string) => void;
+  answerQuestion: () => void;
 }
 
 const RED = "#ff6b61";
@@ -18,7 +18,7 @@ export default function Answer({
 }: AnswerProps) {
   return (
     <Button
-      onClick={() => answerQuestion(answer)}
+      onClick={answerQuestion}
       disabled={answered}
       variant="contained"
       color="primary"

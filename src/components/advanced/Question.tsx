@@ -14,7 +14,7 @@ export default function Question({
 }: QuestionProps) {
   const [answered, setAnswered] = useState(false);
 
-  const answerQuestion = (answer: string) => {
+  const answerQuestion = () => {
     setAnswered(true);
     incrementNumAnswered();
   };
